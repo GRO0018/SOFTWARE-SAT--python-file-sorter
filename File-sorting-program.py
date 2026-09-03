@@ -1,7 +1,7 @@
 import os
 import shutil
 import tkinter
-from tkinter import ttk
+from tkinter import ttk, scrolledtext
 
 #File sort
 def sort_files():
@@ -38,6 +38,15 @@ def sort_files():
                     moved_files.append(f"{item}  →  {folder_name}")
                     break
 
+#Checking sorted files
+    if moved_files:
+        sorted_files.insert(tkinter.END, "Moved files:\n\n")
+        for entry in moved_files:
+            sorted_files.insert(tkinter.END, entry + "\n")
+        status.config(text=f"{len(moved_files)} file(s) moved.")
+    else:
+        sorted_files.insert(tkinter.END, "No matching files found.")
+        status.config(text="Nothing to move.")
 
 #GUI-----------------------------------------------------
 #window
@@ -56,5 +65,12 @@ title.pack(pady=5)
 sort_button = ttk.Button(frm, text='Sort Files', command=sort_files)
 sort_button.pack(pady=10)
 
+#sorted files
+sorted_files = scrolledtext.ScrolledText(frm, height=12, wrap=tkinter.WORD)
+sorted_files.pack(fill='both', expand=True)
+
+#
+status = ttk.Label(frm, text="Ready.")
+status.pack(pady=5)
 
 root.mainloop()
